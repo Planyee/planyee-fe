@@ -18,6 +18,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
+      <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap" rel="stylesheet" />
         <script src="https://apis.openapi.sk.com/tmap/jsv2?version=1&appKey=jej3T0nAxd2uWgcHlRn3n7p8Kd7hDAWLHtvIkHEg"></script>
         </head>
       <body>

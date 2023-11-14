@@ -6,3 +6,7 @@
   font-family: "Damion";
   src: url(../../public/fonts/Damion-Regular.ttf);
 }
+
+body {
+  font-family: 'Noto Sans KR', sans-serif;
+}

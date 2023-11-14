@@ -24,6 +24,14 @@ export const translatedLocationState = atom({
   default: { source: "", destination: "" },
 });
 
+// 추가 입력 스타일
+export const additionalInputState = atom({
+  key: "additionalInputState",
+  default: {
+    input : "",
+  },
+});
+
 export const planState = atom({
   key: "planState",
   default: {

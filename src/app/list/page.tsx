@@ -158,7 +158,9 @@ const ContentList: React.FC = () => {
               src="/images/UI_image/information_bar_2.png"
               alt="Information Bar"
             />
-            <span>경유지</span>
+            {recommendation.subCategory.map((subCategory, index) => (
+              <span key={index}>{subCategory}</span>
+            ))}
             {recommendation.address}
           </React.Fragment>
         </Group>

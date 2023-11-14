@@ -12,6 +12,7 @@ import {
   srcLocationState,
   destLocationState,
   translatedLocationState,
+  additionalInputState,
 } from "@/state/states";
 import { planState } from "@/state/states";
 import Select from "@/components/Select";
@@ -42,7 +43,16 @@ export default function Plan(props: PlanpageProps) {
 
   const [isPopupOpen, setPopupOpen] = useState(false);
 
+  const setadditionalInputState = useSetRecoilState(additionalInputState);
+
   const setplanstate = useSetRecoilState(planState);
+
+  const onsubmithandler = (e) => {
+    e.preventDefault();
+    setadditionalInputState({
+      input: e.target.value,
+    });
+  }
 
   const handleCategoryClick = () => {
     setPopupOpen(true);
@@ -155,11 +165,13 @@ export default function Plan(props: PlanpageProps) {
         </Link>
         <Stack>
           <p>날짜</p>
-          <button className="rounded-full border border-gray-200 text-[#2C7488] font-medium mx-auto w-4/5 h-[50px]">
+          <Link href="/main">
+          <button className="rounded-full border border-gray-200 text-[#2C7488] font-medium mx-auto w-4/5 h-[50px] hover:bg-gray-100">
             {selectedDate.year
               ? `${selectedDate.year}년 ${selectedDate.month}월 ${selectedDate.day}일`
               : ""}
           </button>
+          </Link>
 
           <div className="border-b border-gray-400 w-full my-4"></div>
         </Stack>
@@ -168,7 +180,7 @@ export default function Plan(props: PlanpageProps) {
           <p>장소</p>
           <button
             onClick={departureclickhandler}
-            className="rounded-full border border-gray-200 mx-auto w-4/5 h-[50px]"
+            className="rounded-full border border-gray-200 mx-auto w-4/5 h-[50px] hover:bg-gray-100"
           >
             <Group className="ml-4">
               <Image
@@ -178,14 +190,14 @@ export default function Plan(props: PlanpageProps) {
                 height={25}
                 className="text-[#2C7488]"
               />
-              <p className="text-gray-300">
+              <p className={`${translatedCoordinate.departure ? 'text-black' : ''} text-gray-300`}>
                 {translatedCoordinate.departure || "출발지 입력"}
               </p>
             </Group>
           </button>
           <button
             onClick={destinationclickhandler}
-            className="rounded-full border border-gray-200 mx-auto w-4/5 h-[50px]"
+            className="rounded-full border border-gray-200 mx-auto w-4/5 h-[50px] hover:bg-gray-100"
           >
             <Group className="ml-4">
               <Image
@@ -195,12 +207,11 @@ export default function Plan(props: PlanpageProps) {
                 height={25}
                 className="text-[#2C7488]"
               />
-              <p className="text-gray-300">
+              <p className={`${translatedCoordinate.destination ? 'text-black' : ''} text-gray-300`}>
                 {translatedCoordinate.destination || "도착지 입력"}
               </p>
             </Group>
           </button>
-
           <div className="border-b border-gray-400 w-full my-4"></div>
         </Stack>
 
@@ -215,6 +226,11 @@ export default function Plan(props: PlanpageProps) {
 
           {/* 팝업 창 */}
           {isPopupOpen && <Select onClose={handleClose} />}
+        </Stack>
+        <Stack>
+          <form onSubmit={onsubmithandler}>
+          <input className="rounded-full hover:bg-gray-100 border border-gray-200 mx-auto w-2/5 h-[40px] text-center" placeholder="스타일 추가 입력" type="text" />
+          </form>
         </Stack>
       </Stack>
 
