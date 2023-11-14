@@ -1,0 +1,61 @@
+
+code{
+    white-space: pre-line;
+}
+
+.schedule-container {
+    /* display: flex; */
+    /* flex-direction: column; */
+  }
+  
+  .upper-nav{
+    position: relative;
+    top: 2%;
+    
+  }
+
+  .lower-nav {
+    top: 100%;
+    display: flex;
+    justify-content: space-between;
+    padding: 10px;
+  }
+  
+  .info-bar {
+    position: relative;
+    padding-left: 50px; /* Adjust based on actual image width */
+    margin-bottom: 20px;
+  }
+  
+  .info-bar img {
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
+  
+  .info-bar span {
+    position: absolute;
+    top: 0;
+    left: 40px; /* Adjust to position text next to the bar */
+    font-weight: bold;
+  }
+  
+  .info-bar > div {
+    position: absolute;
+    top: 20px; /* Adjust to align with your design */
+    left: 40px;
+  }
+  
+  .recommendation-group {
+    position: relative;
+    display: flex;
+    align-items: center;
+  }
+
+  .pathsearch{
+    position: absolute;
+    margin-top: 2px;
+    margin-left: 37%;
+    
+  }
+  /* Add additional styles for colors, fonts, etc., to match the provided image */

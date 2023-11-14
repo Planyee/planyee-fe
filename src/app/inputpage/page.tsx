@@ -19,12 +19,12 @@ const Inputpage: React.FC<InputpageProps> = (props) => {
   const mapRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const script = document.createElement("script");
-    script.async = true;
-    script.src = "https://apis.openapi.sk.com/tmap/jsv2?version=1&appKey=jej3T0nAxd2uWgcHlRn3n7p8Kd7hDAWLHtvIkHEg";
-    document.head.appendChild(script);
-    script.onload = () => {
-      console.log("script onload");
+    // const script = document.createElement("script");
+    // script.async = true;
+    // script.src = "https://apis.openapi.sk.com/tmap/jsv2?version=1&appKey=jej3T0nAxd2uWgcHlRn3n7p8Kd7hDAWLHtvIkHEg";
+    // document.head.appendChild(script);
+    // script.onload = () => {
+      //console.log("script onload");
       if (!map && window.Tmapv2 && mapRef.current) {
         map = new window.Tmapv2.Map(mapRef.current, {
           center: new window.Tmapv2.LatLng(37.5652045, 126.98702028),
@@ -32,9 +32,9 @@ const Inputpage: React.FC<InputpageProps> = (props) => {
           height: "890px",
           zoom: 18,
         });
-        map.addListener("touchend", onclickhandler);
+        map.addListener("onClick", onclickhandler);
       }
-    };
+    //};
   }, []);
 
   const onconfirmhandler = () => {
@@ -91,7 +91,7 @@ const Inputpage: React.FC<InputpageProps> = (props) => {
     const content = `
     <div style="position: relative; background-repeat: no-repeat; border-radius: 20px; border: 2px solid #000; 
     line-height: 18px; padding: 2px 35px 2px 2px; width: 200px; height: 90px; background-color: #fff;">
-      <img style="position: absolute; margin: 5px 5px" src="/information_bar.png"/>
+      <img style="position: absolute; margin: 5px 5px" height: 50% src="/images/UI_image/information_bar.png"/>
       <div style="font-size: 12px; font-family: Noto Sans KR; font-size: 15px;
       font-weight: 400; position: absolute; line-height: 15px; margin: 4px 35px; text-align: center;">${state}</div>
       <div style="font-size: 12px; font-family: Noto Sans KR; font-size: 15px;

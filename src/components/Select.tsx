@@ -1,3 +1,4 @@
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
 interface ImageData {
@@ -7,6 +8,19 @@ interface ImageData {
 
 export default function Select({ onClose }: any) {
   const [imageUrls, setImageUrls] = useState<ImageData[]>([]);
+  const [selectedImages, setSelectedImages] = useState<string[]>([]);
+  const router = useRouter();
+
+  const handleImageClick = (imageData: ImageData) => {
+    // 이미지가 이미 선택되었다면 선택 해제하고, 그렇지 않다면 선택
+    if (selectedImages.includes(imageData.name)) {
+      setSelectedImages((prevSelected) =>
+        prevSelected.filter((image) => image !== imageData.name)
+      );
+    } else {
+      setSelectedImages((prevSelected) => [...prevSelected, imageData.name]);
+    }
+  };
 
   useEffect(() => {
     const fetchImages = async () => {
@@ -44,8 +58,28 @@ export default function Select({ onClose }: any) {
             {/* 이미지를 보여주는 코드 */}
             <div className="grid grid-cols-2 gap-4">
               {imageUrls.map((imageData, index) => (
-                <div key={index}>
-                  <img src={imageData.imageUrl} alt={imageData.name} />
+                <div
+                  key={index}
+                  onClick={() => handleImageClick(imageData)}
+                  style={{
+                    position: "relative",
+                    aspectRatio: "1",
+                    border: `4px solid ${
+                      selectedImages.includes(imageData.name)
+                        ? "blue" // 선택된 이미지의 테두리 색상
+                        : "transparent" // 선택되지 않은 이미지의 테두리 색상
+                    }`,
+                  }}
+                >
+                  <img
+                    src={imageData.imageUrl}
+                    alt={imageData.name}
+                    style={{
+                      width: "100%",
+                      height: "100%",
+                      objectFit: "cover",
+                    }}
+                  />
                   <p>{imageData.name}</p>
                 </div>
               ))}

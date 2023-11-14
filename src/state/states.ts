@@ -9,17 +9,56 @@ export const selectedDateState = atom({
 // 출발지 (위도 , 경도)
 export const srcLocationState = atom({
   key: "srcLocationState",
-  default: { latitude: null, longitude: null },
+  default: { latitude: "", longitude: "" },
 });
 
 // 도착지 (위도, 경도)
 export const destLocationState = atom({
   key: "destLocationState",
-  default: { latitude: null, longitude: null },
+  default: { latitude: "", longitude: "" },
 });
 
 // 입력받은 위도 경도 -> 번역
 export const translatedLocationState = atom({
   key: "translatedLocationState",
-  default: { source: null, destination: null },
+  default: { source: "", destination: "" },
+});
+
+export const planState = atom({
+  key: "planState",
+  default: {
+    date: "",
+    planName: "오늘의 일정",
+    sourceLatitude: "",
+    sourceLongitude: "",
+    destinationLatitude: "",
+    destinationLongitude: "",
+    planPreferedPlaces: [],
+    additionalCondition: "",
+  },
+});
+
+export const planId = atom({
+  key: "planId",
+  default:{
+    source:{
+      latitude:"",
+      longitude:""
+    },
+    destination:{
+      latitude:"",
+      longitude:""
+    },
+    recommendations:[
+      {
+        name:"",
+        mainCategory:"",
+        subCategory:"",
+        address:"",
+        description:"",
+        latitude:"",
+        longitude:"",
+      },
+    ]
+  }
 });

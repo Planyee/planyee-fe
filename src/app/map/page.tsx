@@ -1,5 +1,5 @@
-import React, { useEffect, useRef, useState } from "react";
-import "./mappage.css";
+import React, { useEffect, useRef } from "react";
+import "./Map.css";
 
 interface Location {
   latitude: any;
@@ -27,10 +27,9 @@ interface MappageProps {
   onbuttonclickhandler: () => void;
 }
 
-const Mappage: React.FC<MappageProps> = ({
-  locations,
-  onbuttonclickhandler,
-}) => {
+const Map: React.FC<MappageProps> = ({ locations, onbuttonclickhandler }) => {
+  var red = "/images/UI_image/redping.png";
+  var blue = "/images/UI_image/blueping.png";
   const appKey = "jej3T0nAxd2uWgcHlRn3n7p8Kd7hDAWLHtvIkHEg";
   const mapRef = useRef<HTMLDivElement>(null);
   var map, marker, marker_p;
@@ -71,9 +70,10 @@ const Mappage: React.FC<MappageProps> = ({
   };
 
   // 나머지 함수들...
-  function markerset(lat: any, lon: any) {
+  function markerset(lat: any, lon: any, color: any) {
     marker = new window.Tmapv2.Marker({
       position: new window.Tmapv2.LatLng(lat, lon),
+      icon: color,
       map: map,
     });
     resultmarkerArr.push(marker);
@@ -130,7 +130,7 @@ const Mappage: React.FC<MappageProps> = ({
             var latlng = new window.Tmapv2.LatLng(
               geometry.coordinates[j][1],
               geometry.coordinates[j][0]
-            )
+            );
 
             // // console.log(latlng + " latlng입니다.");
             // // 포인트 객체를 받아 좌표값으로 변환
@@ -144,7 +144,8 @@ const Mappage: React.FC<MappageProps> = ({
             // );
             drawInfoArr.push(latlng); //이 과정이 원인인것 같음 LatLng를 하여 얻는 값이 비 정상적임 그래서 기존의 convertChange로 얻는 좌표값 대신 coordinates로 얻는 좌표값을 사용하였음
           }
-          polyline_ = new window.Tmapv2.Polyline({// drawInfoArr를 사용하여 polyline을 생성, 생성된 polyline은 resultInfoArr에 저장
+          polyline_ = new window.Tmapv2.Polyline({
+            // drawInfoArr를 사용하여 polyline을 생성, 생성된 polyline은 resultInfoArr에 저장
             path: drawInfoArr,
             strokeColor: "#ff0000",
             strokeWeight: 6,
@@ -153,7 +154,7 @@ const Mappage: React.FC<MappageProps> = ({
           });
           resultInfoArr.push(polyline_);
           // console.log(resultInfoArr + " fetch함수의 resultInfoArr입니다.");
-         } 
+        }
         // else { // 마커 생성하는 부분인데 여기 추가하니까 에러가 생겨서 손보는 중
         //   var markerImg = "";
         //   var size = ""; //아이콘 크기 설정합니다.
@@ -203,11 +204,15 @@ const Mappage: React.FC<MappageProps> = ({
     var params = await trans(locations);
     // console.log(params + " fetch함수의 params입니다.");
     // console.log(JSON.stringify(params));
-    await markerset(locations.source.latitude, locations.source.longitude);
+    await markerset(locations.source.latitude, locations.source.longitude, red);
     await markerset(
       locations.destination.latitude,
-      locations.destination.longitude
+      locations.destination.longitude,
+      red
     );
+    locations.recommendations.map((item) => {
+      markerset(item.latitude, item.longitude, blue);
+    });
     await routeLayer(params);
   }
 
@@ -239,12 +244,13 @@ const Mappage: React.FC<MappageProps> = ({
 
   return (
     <div className="mappage">
-      <div className="basemap" ref={mapRef}></div>
-      <div className="user_input_confirm" onClick={onbuttonclickhandler}>
-        확인
+      <div className="basemap" ref={mapRef}>
+        <div className="user_input_confirm" onClick={onbuttonclickhandler}>
+          확인
+        </div>
       </div>
     </div>
   );
 };
 
-export default Mappage;
+export default Map;

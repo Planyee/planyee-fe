@@ -4,14 +4,16 @@ import { useState } from "react";
 import { Group, Stack } from "@mantine/core";
 import Image from "next/image";
 import Link from "next/link";
-import Inputpage from "@/app/inputpage/Inputpage";
+import Input from "../input/page";
 import { useRecoilValue, useRecoilState } from "recoil";
+import { useSetRecoilState } from "recoil";
 import {
   selectedDateState,
   srcLocationState,
   destLocationState,
   translatedLocationState,
 } from "@/state/states";
+import { planState } from "@/state/states";
 import Select from "@/components/Select";
 
 interface PlanpageProps {
@@ -34,11 +36,13 @@ export default function Plan(props: PlanpageProps) {
   const appKey = "jej3T0nAxd2uWgcHlRn3n7p8Kd7hDAWLHtvIkHEg";
   const selectedDate = useRecoilValue(selectedDateState);
 
-  const [srcLocation, setSrcLocation] = useRecoilState(srcLocationState);
-  const [destLocation, setDestLocation] = useRecoilState(destLocationState);
+  const srcLocation  = useRecoilValue(srcLocationState);
+  const destLocation = useRecoilValue(destLocationState);
   const translatedLocation = useRecoilValue(translatedLocationState);
 
   const [isPopupOpen, setPopupOpen] = useState(false);
+
+  const setplanstate = useSetRecoilState(planState);
 
   const handleCategoryClick = () => {
     setPopupOpen(true);
@@ -78,6 +82,20 @@ export default function Plan(props: PlanpageProps) {
     setInputclicked(false);
   };
 
+  const onconfirmhandler = () => {
+    setplanstate({
+      date: selectedDate.year.toString()+"-"+selectedDate.month.toString()+"-"+selectedDate.day.toString(),
+      planName: "오늘의 일정",
+      sourceLatitude: srcLocation.latitude,
+      sourceLongitude: srcLocation.longitude,
+      destinationLatitude: destLocation.latitude,
+      destinationLongitude: destLocation.longitude,
+      planPreferedPlaces: [],
+      additionalCondition: "",//수정필요
+    });
+    console.log("planstate", planState);
+  };
+
   const getvalue = async (address: string, lat: string, lon: string) => {
     if (whatclicked === "departure") {
       console.log("departure값을 정의할 getvalue함수 호출됨");
@@ -115,7 +133,7 @@ export default function Plan(props: PlanpageProps) {
   };
 
   return inputclicked ? (
-    <Inputpage
+    <Input
       clickstate={whatclicked}
       propsfunction={getvalue}
       onMapClick={mapclickhandler}
@@ -202,7 +220,7 @@ export default function Plan(props: PlanpageProps) {
 
       <div className="absolute bottom-5 w-full">
         <Link href="/day">
-          <button className="bg-[#CB475B] text-white w-full h-10">확인</button>
+          <button className="bg-[#CB475B] text-white w-full h-10" onClick={onconfirmhandler}>확인</button>
         </Link>
       </div>
     </div>
