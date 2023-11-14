@@ -1,13 +1,23 @@
-'use client';
-import React, { useState } from "react";
+"use client";
+import React from "react";
+import { useState } from "react";
+import { Group, Stack } from "@mantine/core";
+import Image from "next/image";
+import Link from "next/link";
 import Inputpage from "@/app/inputpage/Inputpage";
+import { useRecoilValue, useRecoilState } from "recoil";
+import {
+  selectedDateState,
+  srcLocationState,
+  destLocationState,
+  translatedLocationState,
+} from "@/state/states";
+import Select from "@/components/Select";
 
-// Props 타입 정의, 필요에 따라 수정 가능
 interface PlanpageProps {
   // 여기에 필요한 props 타입을 정의하세요
 }
 
-// 좌표 상태를 위한 인터페이스 정의
 interface Coordinate {
   sourceLatitude: string;
   sourceLongitude: string;
@@ -15,14 +25,28 @@ interface Coordinate {
   destinationLongitude: string;
 }
 
-// 번역된 좌표 상태를 위한 인터페이스 정의
 interface TranslatedCoordinate {
   departure: string;
   destination: string;
 }
 
-const Planpage: React.FC<PlanpageProps> = (props) => {
+export default function Planpage(props: PlanpageProps) {
   const appKey = "jej3T0nAxd2uWgcHlRn3n7p8Kd7hDAWLHtvIkHEg";
+  const selectedDate = useRecoilValue(selectedDateState);
+
+  const [srcLocation, setSrcLocation] = useRecoilState(srcLocationState);
+  const [destLocation, setDestLocation] = useRecoilState(destLocationState);
+  const translatedLocation = useRecoilValue(translatedLocationState);
+
+  const [isPopupOpen, setPopupOpen] = useState(false);
+
+  const handleCategoryClick = () => {
+    setPopupOpen(true);
+  };
+
+  const handleClose = () => {
+    setPopupOpen(false);
+  };
 
   const [coordinate, setCoordinate] = useState<Coordinate>({
     sourceLatitude: "",
@@ -31,10 +55,11 @@ const Planpage: React.FC<PlanpageProps> = (props) => {
     destinationLongitude: "",
   });
 
-  const [translatedCoordinate, setTranslatecoordinate] = useState<TranslatedCoordinate>({
-    departure: "",
-    destination: "",
-  });
+  const [translatedCoordinate, setTranslatedCoordinate] =
+    useState<TranslatedCoordinate>({
+      departure: "",
+      destination: "",
+    });
 
   const [whatclicked, setWhatclicked] = useState<string>("");
   const [inputclicked, setInputclicked] = useState<boolean>(false);
@@ -63,8 +88,8 @@ const Planpage: React.FC<PlanpageProps> = (props) => {
           sourceLongitude: lon,
         };
       });
-      
-      setTranslatecoordinate((prevState) => {
+
+      setTranslatedCoordinate((prevState) => {
         return {
           ...prevState,
           departure: address,
@@ -79,8 +104,8 @@ const Planpage: React.FC<PlanpageProps> = (props) => {
           destinationLongitude: lon,
         };
       });
-      
-      setTranslatecoordinate((prevState) => {
+
+      setTranslatedCoordinate((prevState) => {
         return {
           ...prevState,
           destination: address,
@@ -90,27 +115,96 @@ const Planpage: React.FC<PlanpageProps> = (props) => {
   };
 
   return inputclicked ? (
-    <Inputpage clickstate={whatclicked} propsfunction={getvalue} onMapClick={mapclickhandler} />
+    <Inputpage
+      clickstate={whatclicked}
+      propsfunction={getvalue}
+      onMapClick={mapclickhandler}
+    />
   ) : (
-    <div>
-      <div>
-        <label>출발지: </label>
-        <input className="input_form1"
-          value={translatedCoordinate.departure || "입력하세요"}
-          readOnly
-          onTouchEnd={departureclickhandler}
-        />
-      </div>
-      <div>
-        <label>도착지: </label>
-        <input 
-          value={translatedCoordinate.destination || "입력하세요"}
-          readOnly
-          onTouchEnd={destinationclickhandler}
-        />
+    <div className="h-screen relative">
+      <Stack className="text-center">
+        <p className="gap-7 mt-12 text-lg font-semibold">일정 등록</p>
+        <Link href="/main" className="absolute mt-12 right-0">
+          <button>
+            <Image
+              src="/images/close.svg"
+              alt="Close"
+              width={25}
+              height={25}
+              className="text-[#2C7488]"
+            />
+          </button>
+        </Link>
+        <Stack>
+          <p>날짜</p>
+          <button className="rounded-full border border-gray-200 text-[#2C7488] font-medium mx-auto w-4/5 h-[50px]">
+            {selectedDate.year
+              ? `${selectedDate.year}년 ${selectedDate.month}월 ${selectedDate.day}일`
+              : ""}
+          </button>
+
+          <div className="border-b border-gray-400 w-full my-4"></div>
+        </Stack>
+
+        <Stack>
+          <p>장소</p>
+          <button
+            onClick={departureclickhandler}
+            className="rounded-full border border-gray-200 mx-auto w-4/5 h-[50px]"
+          >
+            <Group className="ml-4">
+              <Image
+                src="/images/logo_color.svg"
+                alt="Logo"
+                width={25}
+                height={25}
+                className="text-[#2C7488]"
+              />
+              <p className="text-gray-300">
+                {translatedCoordinate.departure || "출발지 입력"}
+              </p>
+            </Group>
+          </button>
+          <button
+            onClick={destinationclickhandler}
+            className="rounded-full border border-gray-200 mx-auto w-4/5 h-[50px]"
+          >
+            <Group className="ml-4">
+              <Image
+                src="/images/logo_color.svg"
+                alt="Logo"
+                width={25}
+                height={25}
+                className="text-[#2C7488]"
+              />
+              <p className="text-gray-300">
+                {translatedCoordinate.destination || "도착지 입력"}
+              </p>
+            </Group>
+          </button>
+
+          <div className="border-b border-gray-400 w-full my-4"></div>
+        </Stack>
+
+        <Stack>
+          <p>카테고리</p>
+          <button
+            className="rounded-full hover:bg-gray-100 border border-gray-200 mx-auto w-2/5 h-[40px] "
+            onClick={handleCategoryClick}
+          >
+            카테고리
+          </button>
+
+          {/* 팝업 창 */}
+          {isPopupOpen && <Select onClose={handleClose} />}
+        </Stack>
+      </Stack>
+
+      <div className="absolute bottom-5 w-full">
+        <Link href="/day">
+          <button className="bg-[#CB475B] text-white w-full h-10">확인</button>
+        </Link>
       </div>
     </div>
   );
 }
-
-export default Planpage;

@@ -11,12 +11,13 @@ export default function Select() {
 
   const handleImageClick = (imageData: any) => {
     // 이미지가 이미 선택되었다면 선택 해제하고, 그렇지 않다면 선택
-    if (selectedImages.find((image) => image.imageUrl === imageData.imageUrl)) {
+    if (selectedImages.find((image) => image === imageData.name)) {
+      // 'image'는 이미지의 이름입니다.
       setSelectedImages(
-        selectedImages.filter((image) => image.imageUrl !== imageData.imageUrl)
+        selectedImages.filter((image) => image !== imageData.name)
       );
     } else {
-      setSelectedImages([...selectedImages, imageData]);
+      setSelectedImages([...selectedImages, imageData.name]); // 'imageData.name' 추가
     }
   };
 
@@ -28,7 +29,7 @@ export default function Select() {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(selectedImages),
+        body: JSON.stringify(selectedImages), // 이미지의 장소명 배열을 JSON 문자열로 변환
       });
 
       if (!response.ok) {
@@ -75,9 +76,7 @@ export default function Select() {
                   onClick={() => handleImageClick(imageData)}
                   style={{ position: "relative", aspectRatio: "1" }}
                   className={`border-4 ${
-                    selectedImages.find(
-                      (image) => image.imageUrl === imageData.imageUrl
-                    )
+                    selectedImages.includes(imageData.name) // 'selectedImages.includes(imageData.name)'을 사용하여 이미지가 선택되었는지 확인합니다.
                       ? "border-blue-500"
                       : "border-transparent"
                   }`}

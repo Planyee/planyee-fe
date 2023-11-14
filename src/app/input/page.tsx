@@ -5,13 +5,7 @@ export default function Plan() {
   return (
     <>
       <div className="h-screen relative">
-        <p>일정 등록</p>
-
-        <div className="bg=beige"></div>
-        <p>list들</p>
-        <p>list들</p>
-        <p>list들</p>
-        <p>list들</p>
+        {/* 지도가 출력될 부분 */}
 
         <div className="absolute bottom-5 w-full">
           <Link href="/day">
