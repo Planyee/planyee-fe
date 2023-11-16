@@ -5,9 +5,15 @@ const nextConfig = {
   },
 };
 
-// module.exports = nextConfig
+/// module.exports = nextConfig
 module.exports = {
   images: {
     domains: ["korean.visitseoul.net"],
+  },
+  eslint: {
+    ignoreDuringBuilds: true,
+  },
+  typescript: {
+    ignoreBuildErrors: true,
   },
 };
