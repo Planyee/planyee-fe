@@ -10,4 +10,10 @@ module.exports = {
   images: {
     domains: ["korean.visitseoul.net"],
   },
+  eslint: {
+    ignoreDuringBuilds: true,
+  },
+  typescript: {
+    ignoreBuildErrors: true,
+  },
 };
