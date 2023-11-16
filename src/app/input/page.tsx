@@ -22,22 +22,24 @@ const Input: React.FC<InputProps> = (props) => {
   let infowindows: any[] = [];
   let lonlat: any;
   let infoWindow: any;
-  const mapRef = useRef<HTMLDivElement>(null);
+  const mapRef = useRef<any>(null);
 
   const setsrcLocationState = useSetRecoilState(srcLocationState);
   const setdestLocationState = useSetRecoilState(destLocationState);
   const settranslatedLocationState = useSetRecoilState(translatedLocationState);
 
   useEffect(() => {
-    console.log("useEffect");
-    if (!map && window.Tmapv2 && mapRef.current) {
-      map = new window.Tmapv2.Map(mapRef.current, {
+    console.log("useEffect"); //@ts-ignore
+    if (!mapRef.current && window.Tmapv2) {
+      //@ts-ignore
+      mapRef.current = new window.Tmapv2.Map(mapRef.current, {
+        //@ts-ignore
         center: new window.Tmapv2.LatLng(37.5652045, 126.98702028),
         width: "100%",
         height: "890px",
         zoom: 18,
       });
-      map.addListener("click", onclickhandler);
+      mapRef.current.addListener("click", onclickhandler);
     }
   }, []);
 
@@ -71,7 +73,9 @@ const Input: React.FC<InputProps> = (props) => {
 
   function markerset(lonlat: any) {
     removeMarkers();
+    //@ts-ignore
     marker = new window.Tmapv2.Marker({
+      //@ts-ignore
       position: new window.Tmapv2.LatLng(lonlat.lat(), lonlat.lng()),
       icon: "/images/UI_image/redping.png",
       map: map,
@@ -95,17 +99,16 @@ const Input: React.FC<InputProps> = (props) => {
     }
     //information_bar.png 잊지말고 넣기!
     const content = `
-    <div style="position: relative; background-repeat: no-repeat; border-radius: 20px; box-shadow: 2px 1px 3px #4b4b4b;
-    line-height: 18px; padding: 2px 35px 2px 2px; width: 250px; height: 110px; background-color: #fff;">
-      <img style="position: absolute; margin: 10px 10px" src="/images/UI_image/short_information_bar.png"/>
-      <div style="font-size: 12px; font-family: Noto Sans KR; font-size: 15px;
-      font-weight: 400; position: absolute; line-height: 15px; top: 15px; margin-left: 30px; text-align: center;">${state}</div>
-      <div style="font-size: 12px; font-family: Noto Sans KR; font-size: 15px;
-      font-weight: 400; position: absolute; line-height: 15px; top: 40px; margin-left:30px; text-align: center;">${address}</div>
+    <div class="relative bg-no-repeat rounded-lg shadow-md py-2 px-2 w-60 h-28 bg-white">
+      <img class="absolute m-2" src="/images/UI_image/short_information_bar.png"/>
+      <div class="text-xs font-normal font-NotoSansKR text-center absolute top-4 left-10">${state}</div>
+      <div class="text-xs font-normal font-NotoSansKR text-center absolute top-10 left-10">${address}</div>
     </div>
   `;
     removeinfowindows();
+    //@ts-ignore
     infoWindow = new window.Tmapv2.InfoWindow({
+      //@ts-ignore
       position: new window.Tmapv2.LatLng(lonlat.lat(), lonlat.lng()),
       map: map,
       content: content,

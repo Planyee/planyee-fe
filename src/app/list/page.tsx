@@ -6,7 +6,6 @@ import { Stack, Group } from "@mantine/core";
 import Map from "@/app/map/page";
 import Link from "next/link";
 import Image from "next/image";
-import "./Contentlistpage.css";
 import Loading from "@/components/Loading";
 
 const List: React.FC = () => {
@@ -218,10 +217,12 @@ const List: React.FC = () => {
                       onClick={onclickhandler}
                       className="bg-[#2C7488] text-white w-full h-16"
                     >
-                      <img
+                      <Image
                         src="/images/UI_image/pathsearch.png"
                         alt="Pathsearch"
-                        className="pathsearch"
+                        width={20}
+                        height={20}
+                        className="absolute ml-[32%]"
                       />
                       경로 탐색
                     </button>

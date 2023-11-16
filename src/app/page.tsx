@@ -15,9 +15,12 @@ export default function Login() {
     <>
       <div className="h-screen relative bg-[#CB475B] flex flex-col items-center justify-center">
         <Image src="/images/logo.svg" alt="Logo" width={25} height={25} />
-        <div className="font-['Damion'] text-5xl font-medium text-white">
-          Planyee
-        </div>
+        <Image
+          src="/images/planyee.svg"
+          alt="Planyee"
+          width={150}
+          height={150}
+        />
 
         <div className="absolute bottom-0 mb-20">
           <button onClick={handleNaverLogin}>

@@ -1,5 +1,6 @@
 import "@mantine/core/styles.css";
 import "@/app/globals.css";
+import Script from "next/script";
 
 import { MantineProvider, ColorSchemeScript, Container } from "@mantine/core";
 import { RecoilRoot } from "recoil";
@@ -22,7 +23,7 @@ export default function RootLayout({
           href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap"
           rel="stylesheet"
         />
-        <script src="https://apis.openapi.sk.com/tmap/jsv2?version=1&appKey=jej3T0nAxd2uWgcHlRn3n7p8Kd7hDAWLHtvIkHEg"></script>
+        <Script src="https://apis.openapi.sk.com/tmap/jsv2?version=1&appKey=jej3T0nAxd2uWgcHlRn3n7p8Kd7hDAWLHtvIkHEg"></Script>
       </head>
       <body>
         <RecoilRootProvider>

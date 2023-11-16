@@ -191,7 +191,7 @@ export default function Plan(props: PlanpageProps) {
 
   return inputclicked ? (
     <Input
-      clickstate={whatclicked}
+      clickstate={whatclicked as "departure" | "destination"}
       propsfunction={getvalue}
       onMapClick={mapclickhandler}
     />

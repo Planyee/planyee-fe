@@ -1,12 +1,6 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
-@font-face {
-  font-family: "Damion";
-  src: url(../../public/fonts/Damion-Regular.ttf);
-}
-
-/* body {
+body {
   font-family: "Noto Sans KR", sans-serif;
-} */
+}
