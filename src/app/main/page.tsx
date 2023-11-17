@@ -34,7 +34,7 @@ export default function Main() {
   useEffect(() => {
     const fetchPlans = async () => {
       try {
-        const response = await fetch("http://43.202.89.97:52458/main", , {
+        const response = await fetch("http://43.202.89.97:52458/main", {
           credentials: 'include'
         });
         if (!response.ok) {
